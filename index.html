@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Abdelrahman &amp; Nada - Engagement</title>
 <meta name="description" content="Abdelrahman and Nada are getting engaged - Friday, August 21, 2026 at Jwel Plaza Hotel. Join us!">
+<meta name="theme-color" content="#fdf3f1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -50,7 +51,8 @@
      HERO
      ============================================================ */
   .hero {
-    min-height: 100vh; display: flex; flex-direction: column;
+    min-height: 100vh; min-height: 100svh;
+    display: flex; flex-direction: column;
     align-items: center; justify-content: center; text-align: center;
     padding: 40px 24px 90px;
   }
@@ -73,15 +75,19 @@
   }
   .hero .dateline .dline { width: 50px; height: 1px; background: #d9a89f; }
   .hero .dateline .dtext {
-    font-family: 'Playfair Display', serif; font-size: clamp(16px, 2.4vw, 22px);
+    font-family: 'Playfair Display', serif; font-size: clamp(18px, 2.6vw, 22px);
     letter-spacing: 4px; text-transform: uppercase; color: #5c4742;
   }
+  [data-field="datelabel"] .dnum { font-size: 1.15em; }
   .scroll-cue {
-    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+    position: absolute; bottom: 30px; left: 0; right: 0;
+    margin: 0 auto; width: max-content;
     display: flex; flex-direction: column; align-items: center; gap: 8px;
     color: #c0857c; font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
     animation: fadeUp 1.6s ease 1.4s both; cursor: pointer;
+    transition: opacity .5s ease;
   }
+  .scroll-cue.hidden { animation: none; opacity: 0; pointer-events: none; }
   .scroll-cue svg { width: 22px; height: 22px; fill: none; stroke: #c0857c; stroke-width: 2; animation: bounce 2s infinite; }
   @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
   @keyframes fadeDown { from { opacity: 0; transform: translateY(-24px); } to { opacity: 1; transform: translateY(0); } }
@@ -322,7 +328,11 @@ var CONFIG = {
   setAll("groom", CONFIG.groomName);
   setAll("bride", CONFIG.brideName);
   setAll("dayname", CONFIG.dayName);
-  setAll("datelabel", CONFIG.dateLabel);
+  /* digits get a slightly larger size to visually match the caps height */
+  var dateEls = document.querySelectorAll('[data-field="datelabel"]');
+  for (var d = 0; d < dateEls.length; d++) {
+    dateEls[d].innerHTML = CONFIG.dateLabel.replace(/(\d+)/g, '<span class="dnum">$1</span>');
+  }
   setAll("timelabel", CONFIG.timeLabel);
   setAll("venue", CONFIG.venueName);
   setAll("initials", CONFIG.groomName.charAt(0) + " & " + CONFIG.brideName.charAt(0));
@@ -340,9 +350,14 @@ var CONFIG = {
   }
 
   /* ---------- scroll cue ---------- */
-  document.getElementById("scrollCue").addEventListener("click", function () {
+  var cue = document.getElementById("scrollCue");
+  cue.addEventListener("click", function () {
     document.querySelector(".invite").scrollIntoView({ behavior: "smooth" });
   });
+  window.addEventListener("scroll", function () {
+    if (window.scrollY > 80) cue.classList.add("hidden");
+    else cue.classList.remove("hidden");
+  }, { passive: true });
 
   /* ---------- scroll reveal ---------- */
   var observer = new IntersectionObserver(function (entries) {
