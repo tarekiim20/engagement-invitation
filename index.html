@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abdelrahman &amp; Nada - Engagement</title>
+<meta name="description" content="Abdelrahman and Nada are getting engaged - Friday, August 21, 2026 at Jwel Plaza Hotel. Join us!">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     Abdelrahman & Nada - Engagement Invitation
+     Edit your details in the CONFIG script at the bottom.
+     Save your couple photo as "photo.jpg" in the same folder.
+     ============================================================ */
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(160deg, #fdf3f1 0%, #f9e7e4 40%, #f4dcd9 100%);
+    color: #5c4742;
+    overflow-x: hidden;
+  }
+  img { display: block; }
+  a { text-decoration: none; }
+
+  /* ---------- petal canvas ---------- */
+  #petals {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  }
+
+  section { position: relative; z-index: 1; }
+
+  /* ---------- scroll reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(36px); transition: opacity 1s ease, transform 1s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal.delay1 { transition-delay: .15s; }
+  .reveal.delay2 { transition-delay: .3s; }
+  .reveal.delay3 { transition-delay: .45s; }
+
+  /* ---------- shared ---------- */
+  .kicker { font-size: 12px; letter-spacing: 6px; text-transform: uppercase; color: #c0857c; font-weight: 500; }
+  .flourish { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 26px auto; }
+  .flourish .line { width: 70px; height: 1px; background: #d9a89f; }
+  .flourish svg { width: 16px; height: 16px; fill: #c0857c; }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: 40px 24px 90px;
+  }
+  .hero .kicker { animation: fadeDown 1.4s ease both; }
+  .hero .names {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(58px, 11vw, 130px);
+    color: #8d5f57; line-height: 1.15; margin: 10px 0 0;
+    animation: fadeUp 1.6s ease .3s both;
+  }
+  .hero .names .amp { color: #c0857c; }
+  .hero .tagline {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: clamp(18px, 2.6vw, 24px); color: #a3837c; margin-top: 14px;
+    animation: fadeUp 1.6s ease .6s both;
+  }
+  .hero .dateline {
+    margin-top: 34px; display: flex; align-items: center; gap: 18px;
+    animation: fadeUp 1.6s ease .9s both;
+  }
+  .hero .dateline .dline { width: 50px; height: 1px; background: #d9a89f; }
+  .hero .dateline .dtext {
+    font-family: 'Playfair Display', serif; font-size: clamp(16px, 2.4vw, 22px);
+    letter-spacing: 4px; text-transform: uppercase; color: #5c4742;
+  }
+  .scroll-cue {
+    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: #c0857c; font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    animation: fadeUp 1.6s ease 1.4s both; cursor: pointer;
+  }
+  .scroll-cue svg { width: 22px; height: 22px; fill: none; stroke: #c0857c; stroke-width: 2; animation: bounce 2s infinite; }
+  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ============================================================
+     INVITATION + PHOTO
+     ============================================================ */
+  .invite { padding: 90px 24px; text-align: center; }
+  .invite .inner { max-width: 620px; margin: 0 auto; }
+  .invite .message {
+    font-family: 'Cormorant Garamond', serif; font-size: clamp(20px, 3vw, 26px);
+    font-style: italic; color: #7d605a; line-height: 1.7; margin-top: 24px;
+  }
+  .photo-card {
+    display: inline-block; margin-top: 46px; padding: 26px 26px 34px;
+    background: rgba(255,255,255,0.8); border-radius: 26px;
+    box-shadow: 0 24px 60px rgba(140, 95, 87, 0.22);
+    transform-style: preserve-3d; will-change: transform;
+    transition: box-shadow .4s;
+  }
+  .photo-card:hover { box-shadow: 0 32px 80px rgba(140, 95, 87, 0.3); }
+  .photo-wrap {
+    width: min(280px, 70vw); height: min(350px, 87vw); overflow: hidden;
+    border-radius: 140px; border: 6px solid #fff;
+    box-shadow: 0 12px 30px rgba(140,95,87,0.25);
+  }
+  .photo-wrap img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-wrap.missing img { display: none; }
+  .photo-wrap.missing::after {
+    content: "Save your picture as photo.jpg in this folder";
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; height: 100%; text-align: center; padding: 20px;
+    font-size: 13px; letter-spacing: 1px; color: #b09a94;
+    background: linear-gradient(135deg, #f6e8e4, #edd6d0);
+  }
+  .photo-card .caption {
+    font-family: 'Great Vibes', cursive; font-size: 28px; color: #b07d73; margin-top: 20px;
+  }
+
+  /* ============================================================
+     COUNTDOWN
+     ============================================================ */
+  .countdown { padding: 80px 24px; text-align: center; }
+  .countdown h2 {
+    font-family: 'Great Vibes', cursive; font-weight: 400;
+    font-size: clamp(38px, 6vw, 56px); color: #8d5f57; margin-top: 14px;
+  }
+  .count { display: flex; justify-content: center; gap: clamp(10px, 2.5vw, 22px); margin-top: 44px; flex-wrap: wrap; }
+  .count .box {
+    min-width: clamp(74px, 18vw, 120px); padding: 26px 10px 20px;
+    background: #fff; border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(140,95,87,0.14);
+  }
+  .count .num {
+    font-family: 'Playfair Display', serif; font-size: clamp(34px, 6vw, 52px);
+    color: #8d5f57; line-height: 1; transition: transform .18s ease;
+  }
+  .count .num.bump { transform: scale(1.22); color: #c0857c; }
+  .count .lab { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #c0857c; margin-top: 12px; }
+
+  /* ============================================================
+     DETAILS
+     ============================================================ */
+  .details { padding: 80px 24px 100px; text-align: center; }
+  .details .cards {
+    display: flex; justify-content: center; gap: 22px; margin-top: 46px; flex-wrap: wrap;
+    max-width: 900px; margin-left: auto; margin-right: auto;
+  }
+  .dcard {
+    flex: 1 1 240px; max-width: 280px; background: rgba(255,255,255,0.8);
+    border-radius: 22px; padding: 38px 26px;
+    box-shadow: 0 14px 40px rgba(140,95,87,0.14);
+    transition: transform .35s ease, box-shadow .35s ease;
+  }
+  .dcard:hover { transform: translateY(-8px); box-shadow: 0 24px 55px rgba(140,95,87,0.22); }
+  .dcard svg { width: 34px; height: 34px; stroke: #c0857c; stroke-width: 1.5; fill: none; margin: 0 auto 18px; }
+  .dcard .k { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #c0857c; }
+  .dcard .v { font-family: 'Playfair Display', serif; font-size: 22px; color: #5c4742; margin-top: 10px; line-height: 1.4; }
+  .dcard .s { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: #a3837c; margin-top: 6px; }
+  .details .btnrow { margin-top: 46px; }
+  .btn-map {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 42px; border-radius: 40px; background: #c0857c; color: #fff;
+    font-size: 12px; letter-spacing: 3px; text-transform: uppercase; font-weight: 500;
+    box-shadow: 0 12px 30px rgba(192,133,124,0.4);
+    transition: background .3s, transform .3s, box-shadow .3s;
+  }
+  .btn-map:hover { background: #ab6f66; transform: translateY(-3px); box-shadow: 0 18px 40px rgba(192,133,124,0.5); }
+  .btn-map svg { width: 16px; height: 16px; stroke: #fff; stroke-width: 2; fill: none; }
+
+  /* ============================================================
+     CLOSING
+     ============================================================ */
+  .closing { padding: 90px 24px 120px; text-align: center; }
+  .closing .monogram {
+    width: 110px; height: 110px; margin: 0 auto; border: 1px solid #d9a89f;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 30px; color: #8d5f57;
+    background: rgba(255,255,255,0.55);
+  }
+  .closing .message {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: clamp(20px, 3vw, 26px); color: #7d605a; margin-top: 30px; line-height: 1.7;
+  }
+  .closing .names {
+    font-family: 'Great Vibes', cursive; font-size: clamp(40px, 7vw, 60px);
+    color: #8d5f57; margin-top: 24px;
+  }
+  .closing .hint {
+    margin-top: 40px; font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase; color: #cfa49b;
+  }
+
+  /* ---------- click burst petals ---------- */
+  .burst {
+    position: fixed; width: 12px; height: 8px; border-radius: 50% 50% 50% 0;
+    pointer-events: none; z-index: 50; background: #e8b4ab;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="petals"></canvas>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="kicker">We are getting engaged</div>
+  <h1 class="names"><span data-field="groom"></span> <span class="amp">&amp;</span> <span data-field="bride"></span></h1>
+  <div class="tagline">and we want you there to share our joy</div>
+  <div class="dateline">
+    <div class="dline"></div>
+    <div class="dtext" data-field="datelabel"></div>
+    <div class="dline"></div>
+  </div>
+  <div class="scroll-cue" id="scrollCue">
+    <span>Scroll</span>
+    <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+</section>
+
+<!-- ================= INVITATION ================= -->
+<section class="invite">
+  <div class="inner">
+    <div class="kicker reveal">The invitation</div>
+    <div class="message reveal delay1">
+      Together with our families, we joyfully invite you to celebrate
+      the beginning of our forever. Your presence will make our day
+      complete.
+    </div>
+    <div class="flourish reveal delay2">
+      <div class="line"></div>
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.9-10-9.2C.2 8.7 1.6 5 5 4.2c2-.5 4 .3 5 2 .4.6.7 1.2 1 1.9.3-.7.6-1.3 1-1.9 1-1.7 3-2.5 5-2 3.4.8 4.8 4.5 3 7.6-2.5 4.3-8 9.2-8 9.2z"/></svg>
+      <div class="line"></div>
+    </div>
+    <div class="photo-card reveal delay2" id="photoCard">
+      <div class="photo-wrap"><img src="photo.jpg" alt="Abdelrahman and Nada"></div>
+      <div class="caption">phase one of a very long plan</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COUNTDOWN ================= -->
+<section class="countdown">
+  <div class="kicker reveal">Counting the moments</div>
+  <h2 class="reveal delay1">Until we celebrate</h2>
+  <div class="count reveal delay2" data-countdown>
+    <div class="box"><div class="num" data-count="days">0</div><div class="lab">Days</div></div>
+    <div class="box"><div class="num" data-count="hours">0</div><div class="lab">Hours</div></div>
+    <div class="box"><div class="num" data-count="mins">0</div><div class="lab">Minutes</div></div>
+    <div class="box"><div class="num" data-count="secs">0</div><div class="lab">Seconds</div></div>
+  </div>
+</section>
+
+<!-- ================= DETAILS ================= -->
+<section class="details">
+  <div class="kicker reveal">When and where</div>
+  <div class="cards">
+    <div class="dcard reveal delay1">
+      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+      <div class="k">The Date</div>
+      <div class="v"><span data-field="dayname"></span></div>
+      <div class="s" data-field="datelabel"></div>
+    </div>
+    <div class="dcard reveal delay2">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      <div class="k">The Time</div>
+      <div class="v" data-field="timelabel"></div>
+      <div class="s">until the celebration ends</div>
+    </div>
+    <div class="dcard reveal delay3">
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      <div class="k">The Place</div>
+      <div class="v" data-field="venue"></div>
+      <div class="s">tap below for directions</div>
+    </div>
+  </div>
+  <div class="btnrow reveal delay3">
+    <a class="btn-map" data-field="maplink" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/></svg>
+      View Location
+    </a>
+  </div>
+</section>
+
+<!-- ================= CLOSING ================= -->
+<section class="closing">
+  <div class="monogram reveal"><span data-field="initials"></span></div>
+  <div class="message reveal delay1">
+    We cannot wait to celebrate this beautiful moment with the people
+    we love most. See you there.
+  </div>
+  <div class="names reveal delay2"><span data-field="groom"></span> &amp; <span data-field="bride"></span></div>
+  <div class="hint reveal delay3" data-field="datelabel"></div>
+</section>
+
+<script>
+/* ==============================================================
+   EDIT EVERYTHING HERE
+   ============================================================== */
+var CONFIG = {
+  groomName: "Abdelrahman",
+  brideName: "Nada",
+  eventDate: "2026-08-21T19:00:00",     /* countdown target - confirm the time */
+  dayName: "Friday",
+  dateLabel: "August 21, 2026",
+  timeLabel: "7:00 PM",                 /* PLACEHOLDER - confirm the time */
+  venueName: "Jwel Plaza Hotel",
+  venueMapUrl: "https://share.google/pgZBtpNDzD9APHkiE"
+};
+
+(function () {
+  /* ---------- fill fields ---------- */
+  function setAll(field, value) {
+    var els = document.querySelectorAll('[data-field="' + field + '"]');
+    for (var i = 0; i < els.length; i++) els[i].textContent = value;
+  }
+  setAll("groom", CONFIG.groomName);
+  setAll("bride", CONFIG.brideName);
+  setAll("dayname", CONFIG.dayName);
+  setAll("datelabel", CONFIG.dateLabel);
+  setAll("timelabel", CONFIG.timeLabel);
+  setAll("venue", CONFIG.venueName);
+  setAll("initials", CONFIG.groomName.charAt(0) + " & " + CONFIG.brideName.charAt(0));
+  document.title = CONFIG.groomName + " & " + CONFIG.brideName + " - Engagement";
+
+  var maps = document.querySelectorAll('[data-field="maplink"]');
+  for (var m = 0; m < maps.length; m++) maps[m].href = CONFIG.venueMapUrl;
+
+  /* ---------- photo fallback ---------- */
+  var imgs = document.querySelectorAll(".photo-wrap img");
+  for (var p = 0; p < imgs.length; p++) {
+    imgs[p].addEventListener("error", function () {
+      this.parentElement.classList.add("missing");
+    });
+  }
+
+  /* ---------- scroll cue ---------- */
+  document.getElementById("scrollCue").addEventListener("click", function () {
+    document.querySelector(".invite").scrollIntoView({ behavior: "smooth" });
+  });
+
+  /* ---------- scroll reveal ---------- */
+  var observer = new IntersectionObserver(function (entries) {
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) {
+        entries[i].target.classList.add("visible");
+        observer.unobserve(entries[i].target);
+      }
+    }
+  }, { threshold: 0.18 });
+  var reveals = document.querySelectorAll(".reveal");
+  for (var r = 0; r < reveals.length; r++) observer.observe(reveals[r]);
+
+  /* ---------- countdown with bump animation ---------- */
+  var target = new Date(CONFIG.eventDate).getTime();
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
+  function setNum(el, value) {
+    if (el.textContent !== value) {
+      el.textContent = value;
+      el.classList.add("bump");
+      setTimeout(function () { el.classList.remove("bump"); }, 200);
+    }
+  }
+  function tick() {
+    var diff = target - Date.now();
+    if (diff < 0) diff = 0;
+    var wrap = document.querySelector("[data-countdown]");
+    setNum(wrap.querySelector('[data-count="days"]'), "" + Math.floor(diff / 86400000));
+    setNum(wrap.querySelector('[data-count="hours"]'), pad(Math.floor(diff / 3600000) % 24));
+    setNum(wrap.querySelector('[data-count="mins"]'), pad(Math.floor(diff / 60000) % 60));
+    setNum(wrap.querySelector('[data-count="secs"]'), pad(Math.floor(diff / 1000) % 60));
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* ---------- 3D tilt on the photo card (desktop only) ---------- */
+  var card = document.getElementById("photoCard");
+  var canHover = window.matchMedia("(hover: hover)").matches;
+  if (canHover) {
+    card.addEventListener("mousemove", function (e) {
+      var rect = card.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width - 0.5;
+      var y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = "perspective(800px) rotateY(" + (x * 10) + "deg) rotateX(" + (-y * 10) + "deg)";
+    });
+    card.addEventListener("mouseleave", function () {
+      card.style.transform = "perspective(800px) rotateY(0deg) rotateX(0deg)";
+    });
+  }
+
+  /* ---------- falling petals canvas ---------- */
+  var canvas = document.getElementById("petals");
+  var ctx = canvas.getContext("2d");
+  var petals = [];
+  var COLORS = ["#e8b4ab", "#dda69c", "#eec3bb", "#d9948a", "#f2d0c9"];
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  function makePetal(startAnywhere) {
+    return {
+      x: Math.random() * canvas.width,
+      y: startAnywhere ? Math.random() * canvas.height : -20,
+      size: 5 + Math.random() * 7,
+      speedY: 0.4 + Math.random() * 0.9,
+      speedX: (Math.random() - 0.5) * 0.6,
+      sway: Math.random() * Math.PI * 2,
+      swaySpeed: 0.01 + Math.random() * 0.02,
+      rot: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.02,
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      alpha: 0.5 + Math.random() * 0.4
+    };
+  }
+  var COUNT = Math.min(30, Math.floor(window.innerWidth / 40));
+  for (var i = 0; i < COUNT; i++) petals.push(makePetal(true));
+
+  function drawPetal(pt) {
+    ctx.save();
+    ctx.translate(pt.x, pt.y);
+    ctx.rotate(pt.rot);
+    ctx.globalAlpha = pt.alpha;
+    ctx.fillStyle = pt.color;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, pt.size, pt.size * 0.6, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < petals.length; i++) {
+      var pt = petals[i];
+      pt.sway += pt.swaySpeed;
+      pt.x += pt.speedX + Math.sin(pt.sway) * 0.5;
+      pt.y += pt.speedY;
+      pt.rot += pt.rotSpeed;
+      if (pt.y > canvas.height + 20) petals[i] = makePetal(false);
+      drawPetal(pt);
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  /* ---------- petal burst on click/tap ---------- */
+  document.addEventListener("click", function (e) {
+    if (e.target.closest("a") || e.target.closest("button")) return;
+    for (var i = 0; i < 10; i++) {
+      (function () {
+        var el = document.createElement("div");
+        el.className = "burst";
+        el.style.background = COLORS[Math.floor(Math.random() * COLORS.length)];
+        el.style.left = e.clientX + "px";
+        el.style.top = e.clientY + "px";
+        document.body.appendChild(el);
+        var angle = Math.random() * Math.PI * 2;
+        var dist = 40 + Math.random() * 70;
+        var dx = Math.cos(angle) * dist;
+        var dy = Math.sin(angle) * dist - 30;
+        el.animate([
+          { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
+          { transform: "translate(" + dx + "px," + dy + "px) rotate(" + (Math.random() * 360 - 180) + "deg)", opacity: 0 }
+        ], { duration: 700 + Math.random() * 400, easing: "cubic-bezier(0.2, 0.6, 0.4, 1)" });
+        setTimeout(function () { el.remove(); }, 1100);
+      })();
+    }
+  });
+})();
+</script>
+</body>
+</html>
