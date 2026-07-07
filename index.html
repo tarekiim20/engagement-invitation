@@ -111,8 +111,8 @@
   }
   .photo-card:hover { box-shadow: 0 32px 80px rgba(140, 95, 87, 0.3); }
   .photo-wrap {
-    width: min(280px, 70vw); height: min(350px, 87vw); overflow: hidden;
-    border-radius: 140px; border: 6px solid #fff;
+    width: min(280px, 70vw); height: min(370px, 92vw); overflow: hidden;
+    border-radius: 18px; border: 6px solid #fff;
     box-shadow: 0 12px 30px rgba(140,95,87,0.25);
   }
   .photo-wrap img { width: 100%; height: 100%; object-fit: cover; }
@@ -288,7 +288,7 @@
   <div class="btnrow reveal delay3">
     <a class="btn-map" data-field="maplink" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/></svg>
-      View Location
+      Get Directions
     </a>
   </div>
 </section>
@@ -315,8 +315,8 @@ var CONFIG = {
   dayName: "Friday",
   dateLabel: "August 21, 2026",
   timeLabel: "7:00 PM",                 /* PLACEHOLDER - confirm the time */
-  venueName: "Jwel Plaza Hotel",
-  venueMapUrl: "https://share.google/pgZBtpNDzD9APHkiE"
+  venueName: "Jewel Plaza Hotel",
+  venueMapUrl: "https://www.google.com/maps/dir/?api=1&destination=Jewel+Plaza+Hotel+Banha"
 };
 
 (function () {
@@ -335,7 +335,7 @@ var CONFIG = {
   }
   setAll("timelabel", CONFIG.timeLabel);
   setAll("venue", CONFIG.venueName);
-  setAll("initials", CONFIG.groomName.charAt(0) + " & " + CONFIG.brideName.charAt(0));
+  setAll("initials", CONFIG.brideName.charAt(0) + " & " + CONFIG.groomName.charAt(0));
   document.title = CONFIG.groomName + " & " + CONFIG.brideName + " - Engagement";
 
   var maps = document.querySelectorAll('[data-field="maplink"]');
