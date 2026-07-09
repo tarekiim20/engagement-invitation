@@ -207,6 +207,35 @@
     position: fixed; width: 12px; height: 8px; border-radius: 50% 50% 50% 0;
     pointer-events: none; z-index: 50; background: #e8b4ab;
   }
+
+  /* ---------- music toggle ---------- */
+  .music-btn {
+    position: fixed; bottom: 22px; right: 22px; z-index: 100;
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(255,255,255,0.92); border: 1.5px solid #d9a89f;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 10px 26px rgba(140,95,87,0.28);
+    transition: transform .3s, box-shadow .3s;
+  }
+  .music-btn:hover { transform: scale(1.08); box-shadow: 0 14px 32px rgba(140,95,87,0.36); }
+  .music-btn svg { width: 22px; height: 22px; fill: none; stroke: #b07d73; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .music-btn .icon-off { display: none; }
+  .music-btn.muted .icon-on { display: none; }
+  .music-btn.muted .icon-off { display: block; }
+  .music-btn.playing::after {
+    content: ""; position: absolute; inset: -5px; border-radius: 50%;
+    border: 1.5px solid rgba(192,133,124,0.5); animation: musicPulse 2.2s ease-out infinite;
+  }
+  @keyframes musicPulse {
+    0% { transform: scale(0.9); opacity: 0.9; }
+    100% { transform: scale(1.45); opacity: 0; }
+  }
+
+  .credit {
+    margin-top: 26px; font-size: 9px; letter-spacing: 1px;
+    color: #d5b2aa; text-transform: uppercase;
+  }
+  .credit a { color: #cfa49b; text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -302,7 +331,14 @@
   </div>
   <div class="names reveal delay2"><span data-field="groom"></span> &amp; <span data-field="bride"></span></div>
   <div class="hint reveal delay3" data-field="datelabel"></div>
+  <div class="credit">Music: Heartwarming by Kevin MacLeod (<a href="https://incompetech.com" target="_blank" rel="noopener">incompetech.com</a>), CC BY 4.0</div>
 </section>
+
+<audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
+<button class="music-btn" id="musicBtn" aria-label="Toggle background music" type="button">
+  <svg class="icon-on" viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg>
+  <svg class="icon-off" viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/><line x1="3" y1="3" x2="21" y2="21"/></svg>
+</button>
 
 <script>
 /* ==============================================================
@@ -348,6 +384,57 @@ var CONFIG = {
       this.parentElement.classList.add("missing");
     });
   }
+
+  /* ---------- background music ---------- */
+  var music = document.getElementById("bgMusic");
+  var musicBtn = document.getElementById("musicBtn");
+  music.volume = 0.3;
+  var userMuted = false;
+
+  function setMusicUI() {
+    if (music.paused) {
+      musicBtn.classList.add("muted");
+      musicBtn.classList.remove("playing");
+    } else {
+      musicBtn.classList.remove("muted");
+      musicBtn.classList.add("playing");
+    }
+  }
+  function tryPlayMusic() {
+    if (userMuted || !music.paused) return;
+    var p = music.play();
+    if (p && p.then) p.then(setMusicUI).catch(setMusicUI);
+  }
+  /* attempt real autoplay; most browsers will block until first interaction */
+  tryPlayMusic();
+  setMusicUI();
+  /* start on the very first interaction if autoplay was blocked */
+  function firstInteraction() {
+    tryPlayMusic();
+    document.removeEventListener("pointerdown", firstInteraction);
+    document.removeEventListener("touchend", firstInteraction);
+    document.removeEventListener("keydown", firstInteraction);
+    window.removeEventListener("scroll", firstInteraction);
+  }
+  document.addEventListener("pointerdown", firstInteraction);
+  document.addEventListener("touchend", firstInteraction);
+  document.addEventListener("keydown", firstInteraction);
+  window.addEventListener("scroll", firstInteraction, { passive: true });
+
+  musicBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (music.paused) {
+      userMuted = false;
+      var p = music.play();
+      if (p && p.then) p.then(setMusicUI).catch(setMusicUI);
+    } else {
+      userMuted = true;
+      music.pause();
+      setMusicUI();
+    }
+  });
+  music.addEventListener("play", setMusicUI);
+  music.addEventListener("pause", setMusicUI);
 
   /* ---------- scroll cue ---------- */
   var cue = document.getElementById("scrollCue");
